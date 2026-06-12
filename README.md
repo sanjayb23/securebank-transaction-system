@@ -10,23 +10,6 @@ A full-stack production-grade banking application with Spring Boot backend and R
 - Developed RESTful APIs using Spring Boot with PostgreSQL persistence.
 - Containerized the application using Docker and Docker Compose.
 
-## Screenshots
-
-### Login Page
-![Login](assets/login.png)
-
-### Dashboard
-![Dashboard](assets/dashboard.png)
-
-### Account Management
-![Accounts](assets/accounts.png)
-
-### Transactions
-![Transactions](assets/transactions.png)
-
-### Admin Dashboard
-![Admin](assets/admin.png)
-
 ## 🎯 Project Overview
 
 SecureBank is a comprehensive banking transaction system designed to handle real-world banking operations with enterprise-grade security, scalability, and reliability. The system supports multiple account types, real-time transactions, fraud detection, and complete audit trails.
