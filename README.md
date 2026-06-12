@@ -277,3 +277,8 @@ python -m pytest -v
 - Fraud Detection
 - Audit Logging
 - REST API Endpoints
+
+## 👨‍💻 Author
+
+**Sanjay B**
+- GitHub: https://github.com/sanjayb23
