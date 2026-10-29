@@ -9,8 +9,10 @@ import java.time.LocalDateTime;
 
 @Data
 public class AccountResponse {
+
     private Long id;
     private String accountNumber;
+    private String name;
     private AccountType accountType;
     private BigDecimal balance;
     private String currency;

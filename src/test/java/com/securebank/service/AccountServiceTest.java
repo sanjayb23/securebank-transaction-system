@@ -59,6 +59,7 @@ class AccountServiceTest {
         testAccount = Account.builder()
                 .id(1L)
                 .accountNumber("ACC001")
+                .name("Test Savings Account")
                 .accountType(AccountType.SAVINGS)
                 .balance(new BigDecimal("1000"))
                 .status(AccountStatus.ACTIVE)
@@ -76,18 +77,23 @@ class AccountServiceTest {
             .thenReturn("ACC001");
 
     when(accountRepository.save(any(Account.class)))
-            .thenReturn(testAccount);
+            .thenAnswer(invocation -> invocation.getArgument(0));
 
     CreateAccountRequest request = new CreateAccountRequest();
+    request.setName("Test Savings Account");
     request.setAccountType(AccountType.SAVINGS);
-
     // Act
     AccountResponse response = accountService.createAccount(request, 1L);
 
     // Assert
     assertNotNull(response);
-    verify(accountRepository).save(any(Account.class));
-    verify(userRepository).findById(1L);
+    assertEquals("Test Savings Account", response.getName());
+    assertEquals(BigDecimal.ZERO, response.getBalance());
+
+    verify(accountRepository).save(argThat(account ->
+            "Test Savings Account".equals(account.getName())
+                    && BigDecimal.ZERO.compareTo(account.getBalance()) == 0
+    ));
     verify(accountNumberGenerator).generate();
     }
 

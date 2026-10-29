@@ -41,6 +41,7 @@ public class AccountService {
 
         Account account = Account.builder()
                 .accountNumber(accountNumber)
+                .name(request.getName())
                 .accountType(request.getAccountType())
                 .balance(BigDecimal.ZERO)
                 .currency(request.getCurrency() != null ? request.getCurrency() : "INR")
@@ -134,6 +135,7 @@ public class AccountService {
         AccountResponse response = new AccountResponse();
         response.setId(account.getId());
         response.setAccountNumber(account.getAccountNumber());
+        response.setName(account.getName());
         response.setAccountType(account.getAccountType());
         response.setBalance(account.getBalance());
         response.setCurrency(account.getCurrency());
