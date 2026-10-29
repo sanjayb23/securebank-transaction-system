@@ -1,0 +1,9 @@
+@echo off
+echo Starting PostgreSQL with Docker...
+docker run -d --name postgres-local -p 5432:5432 -e POSTGRES_DB=securebank -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres postgres:15
+
+echo Waiting for PostgreSQL to start...
+timeout /t 10
+
+echo Starting Spring Boot application...
+mvn spring-boot:run

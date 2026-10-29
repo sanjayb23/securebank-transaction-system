@@ -1,0 +1,52 @@
+[
+  {
+    "id": "TC001",
+    "title": "test_user_registration_api",
+    "description": "Verify that the user registration endpoint /api/auth/register successfully registers a new user with valid input data and returns a valid JWT token."
+  },
+  {
+    "id": "TC002",
+    "title": "test_user_login_api",
+    "description": "Verify that the user login endpoint /api/auth/login authenticates a user with valid credentials and returns a valid JWT token."
+  },
+  {
+    "id": "TC003",
+    "title": "test_get_current_user_api",
+    "description": "Verify that the endpoint /api/auth/me returns the current authenticated user's details correctly."
+  },
+  {
+    "id": "TC004",
+    "title": "test_create_account_api",
+    "description": "Verify that the account creation endpoint /api/accounts creates a new bank account with valid account type and currency, and returns the correct account details."
+  },
+  {
+    "id": "TC005",
+    "title": "test_get_accounts_api",
+    "description": "Verify that the endpoint /api/accounts returns a list of accounts belonging to the authenticated user."
+  },
+  {
+    "id": "TC006",
+    "title": "test_get_account_by_id_api",
+    "description": "Verify that the endpoint /api/accounts/{id} returns the correct account details for a valid account ID."
+  },
+  {
+    "id": "TC007",
+    "title": "test_get_account_balance_api",
+    "description": "Verify that the endpoint /api/accounts/{id}/balance returns the correct balance for the specified account ID."
+  },
+  {
+    "id": "TC008",
+    "title": "test_get_account_statement_api",
+    "description": "Verify that the endpoint /api/accounts/{id}/statement returns the correct transaction statement for the specified account ID with pagination details."
+  },
+  {
+    "id": "TC009",
+    "title": "test_update_account_status_api",
+    "description": "Verify that the endpoint /api/accounts/{id}/status updates the account status correctly when provided with a valid status value."
+  },
+  {
+    "id": "TC010",
+    "title": "test_deposit_money_api",
+    "description": "Verify that the deposit endpoint /api/transactions/deposit successfully deposits money into the specified account and returns the transaction details."
+  }
+]

@@ -1,0 +1,773 @@
+[
+  {
+    "id": "TC001",
+    "title": "User Registration Success",
+    "description": "Validate successful user registration with all required fields returning a JWT token.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send POST request to /api/auth/register with valid username, email, password, fullName, and phone."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status is 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response body success field is true."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response contains non-empty JWT token field in data."
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "User Registration with Missing Fields",
+    "description": "Validate user registration fails when required fields are missing.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send POST request to /api/auth/register with missing username field."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status indicates client error (4xx)."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify error message indicates missing required fields."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "User Login Success",
+    "description": "Validate successful user login with correct credentials returns valid JWT token.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send POST request to /api/auth/login with valid username and password."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status is 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response body success field is true."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify JWT token is returned in data."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "User Login Failure with Invalid Credentials",
+    "description": "Verify login fails with invalid username or password.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send POST request to /api/auth/login with incorrect password."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status indicates unauthorized (401)."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify error message indicates invalid credentials."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Retrieve Current User Info",
+    "description": "Validate retrieval of authenticated current user's profile data.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Authenticate and obtain JWT token."
+      },
+      {
+        "type": "action",
+        "description": "Send GET request to /api/auth/me with JWT token in Authorization header."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response includes id, username, email, fullName, phone, role, isVerified, createdAt."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Create New Bank Account",
+    "description": "Validate creating a new bank account with required account type and currency returns account details.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send POST request to /api/accounts with valid accountType and currency fields."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response contains the account details including id, accountNumber, accountType, balance, currency, status, createdAt."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Create Account with Missing Parameters",
+    "description": "Verify account creation fails when required fields are missing.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send POST request to /api/accounts without accountType field."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response indicates client error (4xx)."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify error message indicates missing required fields."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Retrieve User Accounts List",
+    "description": "Validate retrieving list of accounts for authenticated user returns accurate account details and balances.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Authenticate and obtain JWT token."
+      },
+      {
+        "type": "action",
+        "description": "Send GET request to /api/accounts with JWT token."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response data is an array of account objects with required fields."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Retrieve Account Details by ID",
+    "description": "Validate user can retrieve detailed account information by account ID.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send GET request to /api/accounts/{id} with valid account ID and JWT token."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify returned account details match the requested account ID."
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Retrieve Account Balance",
+    "description": "Validate user can retrieve current balance for a specific account.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send GET request to /api/accounts/{id}/balance with valid account ID and JWT token."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify balance value is a number and accurate."
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Retrieve Account Statement",
+    "description": "Validate user can retrieve detailed account statement including transaction history with pagination.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send GET request to /api/accounts/{id}/statement with valid account ID and JWT token."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response data contains an array of transactions with expected fields and pagination details."
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Update Account Status",
+    "description": "Validate account status (e.g., freeze/unfreeze) can be updated successfully by the user or admin.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send PATCH request to /api/accounts/{id}/status with valid status update payload."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response confirms the account status has been updated."
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Deposit Money Successfully",
+    "description": "User can deposit funds into an account and transaction is recorded correctly with fees applied.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send POST request to /api/transactions/deposit with valid accountId and amount."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify transaction data returned matches the deposit details, including fees and status."
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Withdraw Money Successfully",
+    "description": "User can withdraw funds respecting minimum balance and fees, transaction is recorded correctly.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send POST request to /api/transactions/withdraw with valid accountId and amount."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify withdrawal transaction details are correct including fees and updated balance."
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Withdraw Money Failure Due to Insufficient Balance",
+    "description": "Withdrawal request fails if amount exceeds account balance minus minimum required balance.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send POST request to /api/transactions/withdraw with amount greater than allowed."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status indicates failure due to insufficient funds."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify error message explains insufficient balance or minimum balance rule."
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Transfer Money Successfully",
+    "description": "User can transfer funds between accounts with fees and daily limits enforced, transaction recorded accurately.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send POST request to /api/transactions/transfer with valid fromAccountId, toAccountId, and amount."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify transaction details include correct fee, amounts, and execution status."
+      }
+    ]
+  },
+  {
+    "id": "TC017",
+    "title": "Transfer Money Failure Due to Daily Limit Exceeded",
+    "description": "Transfer fails when daily transaction amount limit is exceeded for the user or account.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send multiple transfer requests to exceed daily limits."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response for the last request indicates limit exceeded error."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify error message specifies daily limit exceeded."
+      }
+    ]
+  },
+  {
+    "id": "TC018",
+    "title": "Retrieve Transaction History",
+    "description": "User can retrieve paginated list of their transactions with accurate details.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send GET request to /api/transactions with JWT token."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify returned transaction list is paginated with correct transaction fields."
+      }
+    ]
+  },
+  {
+    "id": "TC019",
+    "title": "Retrieve Transaction Details by ID",
+    "description": "Validate retrieval of specific transaction details by transaction ID.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send GET request to /api/transactions/{id} with valid transaction ID and JWT token."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response contains expected transaction details."
+      }
+    ]
+  },
+  {
+    "id": "TC020",
+    "title": "Admin Retrieve All Users",
+    "description": "Admin can fetch list of all users with detailed profile information.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Authenticate as admin user."
+      },
+      {
+        "type": "action",
+        "description": "Send GET request to /api/admin/users."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status is 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response data includes array of users with required fields."
+      }
+    ]
+  },
+  {
+    "id": "TC021",
+    "title": "Admin Retrieve All Accounts",
+    "description": "Admin can retrieve details of all accounts across users.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Authenticate as admin user."
+      },
+      {
+        "type": "action",
+        "description": "Send GET request to /api/admin/accounts."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify each account contains id, accountNumber, accountType, balance, currency, status, createdAt."
+      }
+    ]
+  },
+  {
+    "id": "TC022",
+    "title": "Admin Retrieve All Transactions",
+    "description": "Admin has access to full transaction list with pagination and details.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Authenticate as admin user."
+      },
+      {
+        "type": "action",
+        "description": "Send GET request to /api/admin/transactions."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify transaction details and pagination information is accurate."
+      }
+    ]
+  },
+  {
+    "id": "TC023",
+    "title": "Admin Freeze Account",
+    "description": "Admin can freeze user accounts to restrict operations.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Admin sends POST request to /api/admin/accounts/{id}/freeze for valid account ID."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response confirms account has been frozen."
+      },
+      {
+        "type": "action",
+        "description": "Attempt operations on frozen account and verify they are blocked."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify appropriate error or denial messages are returned."
+      }
+    ]
+  },
+  {
+    "id": "TC024",
+    "title": "Admin Unfreeze Account",
+    "description": "Admin can unfreeze previously frozen accounts restoring functionality.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Admin sends POST request to /api/admin/accounts/{id}/unfreeze for frozen account."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response confirms account is unfrozen."
+      },
+      {
+        "type": "action",
+        "description": "Perform operations on unfrozen account and verify success."
+      }
+    ]
+  },
+  {
+    "id": "TC025",
+    "title": "Admin Retrieve Daily Report",
+    "description": "Admin can retrieve daily statistics report including total users, accounts, transactions, and balance.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Admin sends GET request to /api/admin/reports/daily."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify report data includes totalUsers, totalAccounts, totalTransactions, totalBalance with correct types."
+      }
+    ]
+  },
+  {
+    "id": "TC026",
+    "title": "Admin Retrieve Audit Logs",
+    "description": "Admin can retrieve audit logs for all critical operations with timestamps and user info.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Admin sends GET request to /api/admin/audit-logs."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status 200 OK."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify audit logs include id, action, entityType, entityId, userId, timestamp, and details."
+      }
+    ]
+  },
+  {
+    "id": "TC027",
+    "title": "Access Control: User Cannot Access Admin Endpoints",
+    "description": "Verify that regular users are forbidden from accessing admin APIs.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Authenticate as regular user."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to access /api/admin/users endpoint."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status 403 Forbidden."
+      }
+    ]
+  },
+  {
+    "id": "TC028",
+    "title": "Security: Password Storage Verification",
+    "description": "Verify that passwords are stored encrypted (BCrypt) and not in plain text.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Register new user with known password."
+      },
+      {
+        "type": "action",
+        "description": "Access user password hash directly from database or appropriate secure interface."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify password is stored as a BCrypt hash."
+      }
+    ]
+  },
+  {
+    "id": "TC029",
+    "title": "SQL Injection Protection",
+    "description": "Validate API endpoints are protected from SQL injection via ORM usage.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send malicious input strings (e.g., SQL injection attempts) in parameters to account creation and transaction endpoints."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify input is properly sanitized and rejected or stored safely without compromising database."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no errors exposing database or unexpected behavior happen."
+      }
+    ]
+  },
+  {
+    "id": "TC030",
+    "title": "API Response HTTP Status Validation",
+    "description": "Verify all API endpoints return appropriate HTTP status codes for success, client errors, and server errors.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Invoke all primary API endpoints with valid and invalid data."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify HTTP 200 for success cases."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify 4xx status codes for invalid client requests."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify 5xx for server issues or unexpected errors."
+      }
+    ]
+  },
+  {
+    "id": "TC031",
+    "title": "Transaction Atomicity on Transfer",
+    "description": "Verify that fund transfers are atomic and consistent: debiting from source and crediting destination succeed or fail together.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Perform transfer of funds where destination account operation is forced to fail (simulate failure)."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no funds are debited from the source account (rollback complete)."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify error response indicating failure."
+      }
+    ]
+  },
+  {
+    "id": "TC032",
+    "title": "Concurrent Access and Consistency Under Load",
+    "description": "Verify system maintains accurate balances with multiple concurrent transactions on the same account.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Simulate multiple concurrent deposits, withdrawals, and transfers on single account."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify final account balance is correct and consistent."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no deadlocks or data corruption occurs."
+      }
+    ]
+  },
+  {
+    "id": "TC033",
+    "title": "Verify Comprehensive Audit Logging",
+    "description": "Verify critical user actions such as login, transactions, account updates are logged with timestamps and user details.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Perform various critical operations (e.g., login, deposit, withdrawal, account freeze)."
+      },
+      {
+        "type": "action",
+        "description": "Retrieve audit logs via admin API."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify logs contain correct action, entity type, entity ID, user ID, timestamp, and details."
+      }
+    ]
+  },
+  {
+    "id": "TC034",
+    "title": "Docker Compose Deployment Verification",
+    "description": "Validate the entire SecureBank API stack builds and starts successfully using Docker Compose with services accessible as per documented URLs.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Run docker-compose build and up commands in project directory."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify all containers start without errors."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify services are reachable at documented endpoints."
+      }
+    ]
+  },
+  {
+    "id": "TC035",
+    "title": "JWT Token Expiration and Refresh Handling",
+    "description": "Verify JWT tokens expire as expected and API returns proper error or refresh mechanism is triggered.",
+    "category": "security",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Authenticate and obtain JWT token."
+      },
+      {
+        "type": "action",
+        "description": "Wait until the token expires or simulate expired token."
+      },
+      {
+        "type": "action",
+        "description": "Invoke a protected API endpoint with expired token."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status indicates unauthorized due to expired token."
+      }
+    ]
+  }
+]
